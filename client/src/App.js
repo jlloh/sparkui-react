@@ -38,7 +38,10 @@ function SparkJobSummaryTable(props) {
             <td>numSkippedTasks</td>
             <td>{props.numSkippedTasks}</td>
           </tr>
-
+          <tr>
+            <td>numActiveTasks</td>
+            <td>{props.numActiveTasks}</td>
+          </tr>
         </tbody>
   </Table>
 }
@@ -87,6 +90,7 @@ class App extends React.Component {
       numCompletedTasks: 0,
       numTasks: 100,
       numSkippedTasks: 0,
+      numActiveTasks: 0,
       sparkApplicationId: "",
       submissionTime: null,
       domain: ""
@@ -95,6 +99,11 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    const current_url = window.location.hostname
+    const default_spark_ui = current_url.replace("sparkmonitor", "jupyter-4040")
+    if (default_spark_ui.includes("jupyter-4040")) {
+      this.setState({domain: default_spark_ui})
+    }
     this.pollerID = setInterval(
       () => this.tick(), 1000
     )
@@ -139,7 +148,8 @@ class App extends React.Component {
       numCompletedTasks: json.numCompletedTasks,
       numTasks: json.numTasks,
       numSkippedTasks: json.numSkippedTasks,
-      submissionTime: json.submissionTime
+      submissionTime: json.submissionTime,
+      numActiveTasks: json.numActiveTasks
     }))
     .catch(error => console.log(error))
     //this.setState({numCompletedTasks: Math.trunc((Math.random() * 100))})
@@ -158,6 +168,7 @@ class App extends React.Component {
       numTasks={this.state.numTasks}
       numCompletedTasks={this.state.numCompletedTasks}
       numSkippedTasks={this.state.numSkippedTasks}
+      numActiveTasks={this.state.numActiveTasks}
     />
     <SparkProgressBar 
       current={this.state.numCompletedTasks + this.state.numSkippedTasks}
