@@ -3,7 +3,7 @@ Simple web UI built using ReactJs to periodically scrape a Spark web UI's API to
 
 ## Instructions
 ### Local Testing
-* Build the docker file
+* Build the docker image
 ```
 docker build . -t sparkreact:test
 ```
@@ -15,3 +15,16 @@ docker run -p 5000:5000 sparkreact:test
 ```
 jupyter-4040-<user>.svcb.chimera.tis-data.grab.com
 ```
+
+### Build for Chimera
+* Build the docker image
+```
+docker build . -t 406280264215.dkr.ecr.ap-southeast-1.amazonaws.com/sparkui-react:latest
+```
+* Push Image
+```
+docker push 406280264215.dkr.ecr.ap-southeast-1.amazonaws.com/sparkui-react:latest
+```
+
+## Sample
+![sparkmonitor.gif](sparkmonitor.gif)
